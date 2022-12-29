@@ -1,0 +1,12 @@
+[Unit]
+Description=Photobooth service to control hardware
+After=multi-user.target
+
+[Service]
+Type=simple
+User=root   
+Restart=always
+ExecStart=/usr/bin/python3 /opt/photobooth_ctrl/main.py
+
+[Install]
+WantedBy=multi-user.target
