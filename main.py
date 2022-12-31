@@ -39,7 +39,7 @@ def setup():
 # Functions
 def gpio_callback(channel):
     if channel == btn_left:
-        light_update()
+        asyncio.run(light_update())
     elif channel == btn_right:
        asyncio.run(shutdown_system())
 
@@ -50,13 +50,14 @@ async def shutdown_system():
         print("Shutdown...")
         os.system("systemctl poweroff")
 
-def light_update():
+async def light_update():
+    time.sleep(1)
     global light_on
     light_on = not light_on
-
-    print("Light", "on" if light_on else "off" )
-    GPIO.output(light_left, light_on)
-    GPIO.output(light_right, light_on)
+    if GPIO.input(btn_left) == 0:
+        print("Light", "on" if light_on else "off" )
+        GPIO.output(light_left, light_on)
+        GPIO.output(light_right, light_on)
 
 
     
